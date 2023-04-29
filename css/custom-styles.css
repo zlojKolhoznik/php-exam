@@ -1,0 +1,7 @@
+:root {
+    --primary-hover-color: #363636;
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+}
