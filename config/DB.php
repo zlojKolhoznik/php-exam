@@ -92,6 +92,9 @@ class DB
         $statement->bindParam(':email', $email);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($user === false) {
+            return null;
+        }
 
         return User::ParseFromArray($user);
     }
