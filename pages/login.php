@@ -73,7 +73,12 @@ if ($user->getPasswordHash() != $password_hash) {
     header('Location: ?error=2');
     exit();
 }
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $_SESSION['user'] = $user;
 if ($remember_me == 'on') {
     setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30);
 }
+header('Location: ../index.php');
+exit();

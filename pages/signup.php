@@ -117,7 +117,12 @@ if ($user !== null) {
 }
 $db->addUser($email, hash('sha256', $password), $name, $phone, 0);
 $user = $db->getUser($email);
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $_SESSION['user'] = $user;
 if (isset($_POST['remember'])) {
     setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30, '/');
 }
+header('Location: ../index.php');
+exit();
