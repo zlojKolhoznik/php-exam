@@ -178,15 +178,14 @@ class DB
         $statement->execute();
     }
 
-    public function addUser($email, $password_hash, $first_name, $last_name, $phone_number, $address)
+    public function addUser($email, $password_hash, $name, $phone, $role)
     {
-        $statement = $this->connection->prepare('INSERT INTO users (email, password_hash, first_name, last_name, phone_number, address) VALUES (:email, :password, :first_name, :last_name, :phone_number, :address)');
+        $statement = $this->connection->prepare('INSERT INTO users (email, password_hash, name, last_name, phone, role) VALUES (:email, :password, :name, :phone, :role)');
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password_hash);
-        $statement->bindParam(':first_name', $first_name);
-        $statement->bindParam(':last_name', $last_name);
-        $statement->bindParam(':phone_number', $phone_number);
-        $statement->bindParam(':address', $address);
+        $statement->bindParam(':first_name', $name);
+        $statement->bindParam(':phone_number', $phone);
+        $statement->bindParam(':role', $role);
         $statement->execute();
     }
 
