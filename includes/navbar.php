@@ -27,27 +27,34 @@ if ($query_index !== false) {
                 <li class="nav-item">
                     <a class="nav-link <?php if ($path == "/contacts.php") echo "active" ?>" href="#">Contacts</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php if ($path == "/profile.php") echo "active" ?>" href="#">Profile</a>
-                </li>
                 <?php if (isset($_SESSION['user']) || $_SESSION['user'] !== null): ?>
-                <li class="nav-item dropdown mx-3">
-                    <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Hello, <?php echo $_SESSION['user']->getName() ?>
-                    </a>
-                    <div class="dropdown-menu" data-bs-popper="static">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Orders</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <?php if ($_SESSION['user']->getRole() == 1): ?>
+                    <li class="nav-item dropdown mx-3">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Hello, <?php echo $_SESSION['user']->getName() ?>
+                        </a>
+                        <div class="dropdown-menu" data-bs-popper="static">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Orders</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <?php if ($_SESSION['user']->getRole() == 1): ?>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="pages/admin-panel.php">Admin panel</a>
+                            <?php endif; ?>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Admin panel</a>
-                        <?php endif; ?>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="includes/logout.php">Logout</a>
-                    </div>
-                </li>
-            <?php endif; ?>
+                            <a class="dropdown-item" href="includes/logout.php">Logout</a>
+                        </div>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item dropdown mx-3">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Account
+                        </a>
+                        <div class="dropdown-menu" data-bs-popper="static">
+                            <a href="pages/login.php" class="dropdown-item">Log in</a>
+                            <a href="pages/signup.php" class="dropdown-item">Sign up</a>
+                        </div>
+                    </li>
+                <?php endif; ?>
             </ul>
             <?php if ($path == "/" || $path == "/index.php"): ?>
                 <form class="d-flex">

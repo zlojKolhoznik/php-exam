@@ -1,3 +1,53 @@
+<?php 
+include_once '../config/DB.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (isset($_POST['submit'])) {
+    if (!isset($_POST['email'])) {
+        header('Location: signup.php?error=2');
+        exit();
+    } elseif (!isset($_POST['password'])) {
+        header('Location: signup.php?error=3');
+        exit();
+    } elseif (!isset($_POST['password2'])) {
+        header('Location: signup.php?error=4');
+        exit();
+    } elseif (!isset($_POST['name'])) {
+        header('Location: signup.php?error=5');
+        exit();
+    } elseif (!isset($_POST['phone'])) {
+        header('Location: signup.php?error=6');
+        exit();
+    }
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $password2 = $_POST['password2'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+
+    if ($password !== $password2) {
+        header('Location: signup.php?error=7');
+        exit();
+    }
+
+    $db = DB::getInstance();
+    $user = $db->getUser($email);
+    if ($user !== null) {
+        header('Location: signup.php?error=1');
+        exit();
+    }
+    $db->addUser($email, hash('sha256', $password), $name, $phone, 0);
+    $user = $db->getUser($email);
+    $_SESSION['user'] = $user;
+    if (isset($_POST['remember'])) {
+        setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30, '/');
+    }
+    header('Location: ../index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -30,7 +80,7 @@
                                 <input type="email" name="email" id="email" class="form-control" placeholder="name@example.com">
                                 <label for="email">Email</label>
                                 <div class="invalid-feedback">
-                                    No user with this email exists.
+                                    Account with this email already exists.
                                 </div>
                                 <p class="text-muted">We won't share your email with anyone.</p>
                             </div>
@@ -48,7 +98,7 @@
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                                 <label for="password">Password</label>
                                 <div class="invalid-feedback">
-                                    Incorrect password.
+                                    Please enter password.
                                 </div>
                             </div>
                             <div class="form-floating mb-3 has-validation">
@@ -65,7 +115,7 @@
                         </div>
                         <p class="text-muted mb-3">Already have an account? <a href="login.php">Log in!</a></p>
                         <div class="form-group">
-                            <input type="submit" value="Sign up" class="btn btn-primary">
+                            <input type="submit" name="submit" value="Sign up" class="btn btn-primary">
                         </div>
                     </form>
                 </div>
@@ -73,56 +123,3 @@
         </div>
     </body>
 </html>
-<?php
-
-if (!isset($_POST['submit'])) {
-    exit();
-}
-
-include_once '../config/DB.php';
-
-if (!isset($_POST['email'])) {
-    header('Location: signup.php?error=2');
-    exit();
-} elseif (!isset($_POST['password'])) {
-    header('Location: signup.php?error=3');
-    exit();
-} elseif (!isset($_POST['password2'])) {
-    header('Location: signup.php?error=4');
-    exit();
-} elseif (!isset($_POST['name'])) {
-    header('Location: signup.php?error=5');
-    exit();
-} elseif (!isset($_POST['phone'])) {
-    header('Location: signup.php?error=6');
-    exit();
-}
-
-$email = $_POST['email'];
-$password = $_POST['password'];
-$password2 = $_POST['password2'];
-$name = $_POST['name'];
-$phone = $_POST['phone'];
-
-if ($password !== $password2) {
-    header('Location: signup.php?error=7');
-    exit();
-}
-
-$db = DB::getInstance();
-$user = $db->getUser($email);
-if ($user !== null) {
-    header('Location: signup.php?error=1');
-    exit();
-}
-$db->addUser($email, hash('sha256', $password), $name, $phone, 0);
-$user = $db->getUser($email);
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-$_SESSION['user'] = $user;
-if (isset($_POST['remember'])) {
-    setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30, '/');
-}
-header('Location: ../index.php');
-exit();

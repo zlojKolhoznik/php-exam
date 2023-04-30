@@ -180,11 +180,11 @@ class DB
 
     public function addUser($email, $password_hash, $name, $phone, $role)
     {
-        $statement = $this->connection->prepare('INSERT INTO users (email, password_hash, name, last_name, phone, role) VALUES (:email, :password, :name, :phone, :role)');
+        $statement = $this->connection->prepare('INSERT INTO users (email, password_hash, name, phone, role) VALUES (:email, :password, :name, :phone, :role)');
         $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $password_hash);
-        $statement->bindParam(':first_name', $name);
-        $statement->bindParam(':phone_number', $phone);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':phone', $phone);
         $statement->bindParam(':role', $role);
         $statement->execute();
     }
