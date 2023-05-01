@@ -32,7 +32,7 @@ class DB
 
     // CRUD - Read
 
-    public function getCategory($id)
+    public function getCategoryById($id)
     {
         $statement = $this->connection->prepare('SELECT * FROM categories WHERE id = :id');
         $statement->bindParam(':id', $id);
@@ -55,7 +55,7 @@ class DB
         return $categories;
     }
 
-    public function getProduct($id)
+    public function getProductById($id)
     {
         $statement = $this->connection->prepare('SELECT * FROM products WHERE id = :id');
         $statement->bindParam(':id', $id);
@@ -79,7 +79,7 @@ class DB
         return $products;
     }
 
-    public function getAllProducts()
+    public function getProducts()
     {
         $statement = $this->connection->prepare('SELECT * FROM products');
         $statement->execute();
@@ -284,12 +284,18 @@ class DB
 
     public function updateProduct($product) {
         $statement = $this->connection->prepare('UPDATE products SET name = :name, price = :price, description = :description, image_url = :image_url, category_id = :category_id WHERE id = :id');
-        $statement->bindParam(':id', $product->id);
-        $statement->bindParam(':name', $product->name);
-        $statement->bindParam(':price', $product->price);
-        $statement->bindParam(':description', $product->description);
-        $statement->bindParam(':image_url', $product->image_url);
-        $statement->bindParam(':category_id', $product->category_id);
+        $id = $product->getId();
+        $name = $product->getName();
+        $price = $product->getPrice();
+        $description = $product->getDescription();
+        $image_url = $product->getImageUrl();
+        $category_id = $product->getCategoryId();
+        $statement->bindParam(':id', $id);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':price', $price);
+        $statement->bindParam(':description', $description);
+        $statement->bindParam(':image_url', $image_url);
+        $statement->bindParam(':category_id', $category_id);
         $statement->execute();
     }
 

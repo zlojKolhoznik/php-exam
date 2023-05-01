@@ -17,7 +17,7 @@ if ($query_index !== false) {
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link <?php if ($path == "/" || $path == "/index.php") echo "active" ?>" href="#">Home</a>
+                    <a class="nav-link <?php if ($path == "/" || $path == "/index.php") echo "active" ?>" href="/index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?php if ($path == "/cart.php") echo "active" ?>" href="#">Cart</a>
@@ -27,7 +27,7 @@ if ($query_index !== false) {
                 </li>
                 <?php if (isset($_SESSION['user']) || $_SESSION['user'] !== null): ?>
                     <li class="nav-item dropdown mx-3">
-                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             Hello, <?php echo $_SESSION['user']->getName() ?>
                         </a>
                         <div class="dropdown-menu" data-bs-popper="static">

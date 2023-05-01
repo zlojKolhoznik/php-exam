@@ -5,7 +5,6 @@
     }
     require_once "../scripts/authorize_only_admin.php";
     $db = DB::getInstance();
-    $categories = $db->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +18,6 @@
     </head>
     <body>
         <?php include_once "../includes/navbar.php" ?>
-        <!-- TODO: create collapses for each table -->
         <div class="container mt-4">
             <h1 class="text-center">Admin panel</h1>
             <div class="d-flex flex-column">
@@ -46,7 +44,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($categories as $category): ?>
+                                <?php foreach($db->getCategories() as $category): ?>
                                     <tr>
                                         <td><?php echo $category->getId() ?></td>
                                         <td><?php echo $category->getName() ?></td>
@@ -97,6 +95,59 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <button id="productsToggle" 
+                        class="btn btn-link border-bottom text-decoration-none text-start" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#productsCollapse" 
+                        aria-expanded="false" 
+                        aria-controls="productsCollapse">
+                        Products
+                </button>
+                <div class="collapse" id="productsCollapse">
+                    <div class="p-2">
+                    <div class="mb-3">
+                            <a href="upsert-product.php" class="btn btn-sm btn-success">Add new product</a>
+                        </div>
+                        <table class="table table-sm table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Id</th>
+                                    <th style="width: 20%;">Name</th>
+                                    <th style="width: 20%;">Price</th>
+                                    <th style="width: 20%;">Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($db->getProducts() as $product): ?>
+                                    <tr>
+                                        <td><?php echo $product->getId() ?></td>
+                                        <td><?php echo $product->getName() ?></td>
+                                        <td><?php echo $product->getPrice() ?></td>
+                                        <td><?php echo $db->getCategoryById($product->getCategoryId())->getName() ?></td>
+                                        <td>
+                                            <a href="upsert-product.php?id=<?php echo $product->getId() ?>" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="../scripts/delete-product.php?id=<?php echo $product->getId() ?>" class="btn btn-sm btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button id="ordersToggle" 
+                        class="btn btn-link border-bottom text-decoration-none text-start" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#ordersCollapse" 
+                        aria-expanded="false" 
+                        aria-controls="ordersCollapse">
+                        Orders
+                </button>
+                <div class="collapse" id="ordersCollapse">
+                    ORDERS MONITOR COMING SOON
                 </div>
             </div>
         </div>
