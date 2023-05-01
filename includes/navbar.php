@@ -36,10 +36,10 @@ if ($query_index !== false) {
                             <a class="dropdown-item" href="#">Settings</a>
                             <?php if ($_SESSION['user']->getRole() == 1): ?>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="pages/admin-panel.php">Admin panel</a>
+                                <a class="dropdown-item" href="/pages/admin-panel.php">Admin panel</a>
                             <?php endif; ?>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="includes/logout.php">Logout</a>
+                            <a class="dropdown-item" href="/scripts/logout.php">Logout</a>
                         </div>
                     </li>
                 <?php else: ?>

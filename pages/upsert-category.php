@@ -3,7 +3,7 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    require_once '../includes/authorize_only_admin.php';
+    require_once '../scripts/authorize_only_admin.php';
     $db = DB::getInstance();
     $category = isset($_GET['id']) ? $db->getCategory($_GET['id']) : null;
     if (isset($_POST['submit'])) {
