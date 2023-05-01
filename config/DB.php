@@ -42,7 +42,7 @@ class DB
         return Category::ParseFromArray($category);
     }
 
-    public function getAllCategories()
+    public function getCategories()
     {
         $statement = $this->connection->prepare('SELECT * FROM categories');
         $statement->execute();
@@ -213,6 +213,13 @@ class DB
 
     // CRUD - Update
 
+    public function updateCategory($id, $new_name) {
+        $statement = $this->connection->prepare('UPDATE categories SET name = :new_name WHERE id = :id');
+        $statement->bindParam(':id', $id);
+        $statement->bindParam(':new_name', $new_name);
+        $statement->execute();
+    }
+
     public function updateCartStatus($cart_id, $status) {
         $statement = $this->connection->prepare('UPDATE carts SET status = :status WHERE id = :cart_id');
         $statement->bindParam(':cart_id', $cart_id);
@@ -261,7 +268,7 @@ class DB
     // CRUD - Delete
 
     public function deleteCategory($category_id) {
-        $statement = $this->connection->prepare('SELECT COUNT(*) FROM categories WHERE id = :category_id');
+        $statement = $this->connection->prepare('SELECT COUNT(*) FROM products WHERE category_id = :category_id');
         $statement->bindParam(':category_id', $category_id);
         $statement->execute();
         $count = $statement->fetchColumn();

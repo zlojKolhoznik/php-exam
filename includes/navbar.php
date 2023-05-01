@@ -1,7 +1,5 @@
 <?php
 
-include_once "models/User.php";
-
 $path = $_SERVER['REQUEST_URI'];
 $query_index = strpos($path, '?');
 if ($query_index !== false) {
