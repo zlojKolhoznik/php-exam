@@ -64,7 +64,7 @@ $email = $_POST['email'];
 $password_hash = hash('sha256', $_POST['password']);
 $remember_me = $_POST['remember'];
 $db = DB::getInstance();
-$user = $db->getUser($email);
+$user = $db->getUserByEmail($email);
 if ($user == null) {
     header('Location: ?error=1');
     exit();

@@ -33,13 +33,13 @@ if (isset($_POST['submit'])) {
     }
 
     $db = DB::getInstance();
-    $user = $db->getUser($email);
+    $user = $db->getUserByEmail($email);
     if ($user !== null) {
         header('Location: signup.php?error=1');
         exit();
     }
     $db->addUser($email, hash('sha256', $password), $name, $phone, 0);
-    $user = $db->getUser($email);
+    $user = $db->getUserByEmail($email);
     $_SESSION['user'] = $user;
     if (isset($_POST['remember'])) {
         setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30, '/');

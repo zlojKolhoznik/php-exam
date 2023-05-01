@@ -31,7 +31,7 @@
         <?php include_once '../includes/navbar.php' ?>
         <div class="container mt-4">
             <h1 class="text-center"><?php echo isset($_GET['id']) ? 'Edit ' : 'Create new ' ?> category</h1>
-            <form action="" method="POST">
+            <form method="post">
                 <div class="form-floating mb-3">
                     <input 
                         type="text" 

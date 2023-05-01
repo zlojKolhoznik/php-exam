@@ -48,11 +48,49 @@
                             <tbody>
                                 <?php foreach($categories as $category): ?>
                                     <tr>
-                                        <td><?= $category->getId() ?></td>
-                                        <td><?= $category->getName() ?></td>
+                                        <td><?php echo $category->getId() ?></td>
+                                        <td><?php echo $category->getName() ?></td>
                                         <td>
-                                            <a href="upsert-category.php?id=<?= $category->getId() ?>" class="btn btn-sm btn-primary">Edit</a>
-                                            <a href="../scripts/delete-category.php?id=<?= $category->getId() ?>" class="btn btn-sm btn-danger">Delete</a>
+                                            <a href="upsert-category.php?id=<?php echo $category->getId() ?>" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="../scripts/delete-category.php?id=<?php echo $category->getId() ?>" class="btn btn-sm btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button id="usersToggle" 
+                        class="btn btn-link border-bottom text-decoration-none text-start" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#usersCollapse" 
+                        aria-expanded="false" 
+                        aria-controls="usersCollapse">
+                        Users
+                </button>
+                <div class="collapse" id="usersCollapse">
+                    <div class="p-2">
+                        <table class="table table-sm table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Id</th>
+                                    <th style="width: 20%;">Name</th>
+                                    <th style="width: 20%;">Phone</th>
+                                    <th style="width: 20%;">Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($db->getUsers() as $user): ?>
+                                    <tr>
+                                        <td><?php echo $user->getId() ?></td>
+                                        <td><?php echo $user->getName() ?></td>
+                                        <td><?php echo $user->getPhone() ?></td>
+                                        <td><?php echo $user->getRole() == 1 ? 'Admin' : 'Customer' ?></td>
+                                        <td>
+                                            <a href="upsert-user.php?id=<?php echo $user->getId() ?>" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="../scripts/delete-user.php?id=<?php echo $user->getId() ?>" class="btn btn-sm btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -68,18 +106,18 @@
         let buttons = document.querySelectorAll('button[data-bs-toggle="collapse"]');
         let activeButtonId = null;
 
-        function hideShownCollapse() {
+        function hideShownCollapse(pressedId) {
+            if (activeButtonId == pressedId) {
+                activeButtonId = null;
+                return;
+            }
             if (activeButtonId != null) {
                 let button = document.getElementById(activeButtonId);
                 button.click();
             }
+            activeButtonId = pressedId;
         }
 
-        buttons.forEach(button => {
-            button.addEventListener('click', e => {
-                hideShownCollapse();
-                activeButtonId = e.target.id;
-            })
-        })
+        buttons.forEach(button => button.addEventListener('click', e => hideShownCollapse(e.target.id)));
     </script>
 </html>

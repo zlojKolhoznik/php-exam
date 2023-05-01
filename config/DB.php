@@ -92,7 +92,7 @@ class DB
         return $products;
     }
 
-    public function getUser($email) 
+    public function getUserByEmail($email) 
     {
         $statement = $this->connection->prepare('SELECT * FROM users WHERE email = :email');
         $statement->bindParam(':email', $email);
@@ -103,6 +103,29 @@ class DB
         }
 
         return User::ParseFromArray($user);
+    }
+
+    public function getUserById($id)
+    {
+        $statement = $this->connection->prepare('SELECT * FROM users WHERE id = :id');
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return User::ParseFromArray($user);
+    }
+
+    public function getUsers()
+    {
+        $statement = $this->connection->prepare('SELECT * FROM users');
+        $statement->execute();
+        $users_from_db = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        foreach($users_from_db as $user_from_db) {
+            $users[] = User::ParseFromArray($user_from_db);
+        }
+
+        return $users;
     }
 
     public function getCart($id)
@@ -243,14 +266,19 @@ class DB
     }
 
     public function updateUser($user) {
-        $statement = $this->connection->prepare('UPDATE users SET email = :email, password_hash = :password_hash, name = :name, phone = :phone, address = :address, role = :role WHERE id = :id');
-        $statement->bindParam(':id', $user->id);
-        $statement->bindParam(':email', $user->email);
-        $statement->bindParam(':password_hash', $user->password_hash);
-        $statement->bindParam(':name', $user->name);
-        $statement->bindParam(':phone', $user->phone);
-        $statement->bindParam(':address', $user->address);
-        $statement->bindParam(':role', $user->role);
+        $statement = $this->connection->prepare('UPDATE users SET email = :email, password_hash = :password_hash, name = :name, phone = :phone, role = :role WHERE id = :id');
+        $id = $user->getId();
+        $email = $user->getEmail();
+        $password_hash = $user->getPasswordHash();
+        $name = $user->getName();
+        $phone = $user->getPhone();
+        $role = $user->getRole();
+        $statement->bindParam(':id', $id);
+        $statement->bindParam(':email', $email);
+        $statement->bindParam(':password_hash', $password_hash);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(':phone', $phone);
+        $statement->bindParam(':role', $role);
         $statement->execute();
     }
 
