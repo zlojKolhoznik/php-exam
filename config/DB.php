@@ -157,6 +157,22 @@ class DB
         return $carts;
     }
 
+    public function getActiveUserCart($user_id) {
+        $statement = $this->connection->prepare('SELECT * FROM carts WHERE user_id = :user_id AND status = :status');
+        $statement->bindParam(':user_id', $user_id);
+        $status = 'active';
+        $statement->bindParam(':status', $status);
+        $statement->execute();
+        if ($statement->rowCount() === 0) {
+            return null;
+        }
+        $cart_from_db = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $products_info = $this->getProductsByCartId($cart_from_db['id']);
+
+        return Cart::ParseFromArrays($cart_from_db, $products_info);
+    }
+
     public function getOrder($id)
     {
         $statement = $this->connection->prepare('SELECT * FROM orders WHERE id = :id');
@@ -221,7 +237,10 @@ class DB
 
     public function addProductToCart($cart_id, $product_id, $quantity)
     {
-        $statement = $this->connection->prepare('INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :quantity)');
+        echo "cart".$cart_id;
+        echo " product".$product_id;
+        echo " quantity".$quantity;
+        $statement = $this->connection->prepare('INSERT INTO carts_products (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :quantity)');
         $statement->bindParam(':cart_id', $cart_id);
         $statement->bindParam(':product_id', $product_id);
         $statement->bindParam(':quantity', $quantity);
@@ -368,7 +387,7 @@ class DB
     }
 
     private function getProductsByCartId($cart_id) {
-        $statement = $this->connection->prepare('SELECT * FROM cart_products WHERE cart_id = :cart_id');
+        $statement = $this->connection->prepare('SELECT * FROM carts_products WHERE cart_id = :cart_id');
         $statement->bindParam(':cart_id', $cart_id);
         $statement->execute();
         $cart_products_from_db = $statement->fetchAll(PDO::FETCH_ASSOC);

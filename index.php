@@ -9,6 +9,7 @@
 ?>
 <head>
     <?php include_once "includes/links.php" ?>
+    <title>Home - ShopyShop</title>
 </head>
 <body>
     <?php include_once "includes/navbar.php" ?>
@@ -27,7 +28,7 @@
                         <?php echo $product->getPrice() ?>₴
                     </p>
                     <div class="card-footer p-2" style="height: 4em;">
-                        <a href="product.php?id=<?php echo $product->getId() ?>" class="btn btn-primary">View</a>
+                        <a href="pages/product.php?id=<?php echo $product->getId() ?>" class="btn btn-primary">View</a>
                     </div>
                 </div>
             <?php endforeach; ?>
