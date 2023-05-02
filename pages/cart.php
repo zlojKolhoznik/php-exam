@@ -57,9 +57,7 @@
                         } 
                     echo $total; ?>₴
                 </p>
-                <form action="../scripts/checkout.php" method="POST">
-                    <button type="submit" class="btn btn-success mb-3">Checkout</button>
-                </form>
+                <a class="btn btn-success mb-3" href="order-details.php?total=<?php echo $total ?>">Checkout</a>
             <?php endif ?>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

@@ -246,9 +246,11 @@ class DB
         $statement->execute();
     }
 
-    public function addOrder($cart_id) {
-        $statement = $this->connection->prepare('INSERT INTO orders (cart_id, status) VALUES (:cart_id, "pending")');
+    public function addOrder($cart_id, $delivery_address, $recipient_fullname) {
+        $statement = $this->connection->prepare('INSERT INTO orders (cart_id, status, delivery_address, recipient_fullname) VALUES (:cart_id, "pending", :delivery_address, :recipient_fullname)');
         $statement->bindParam(':cart_id', $cart_id);
+        $statement->bindParam(':delivery_address', $delivery_address);
+        $statement->bindParam(':recipient_fullname', $recipient_fullname);
         $statement->execute();
     }
 
@@ -409,13 +411,3 @@ class DB
     }
 
 }
-
-
-// Database Schema:
-// NAME: shop
-// TABLE `categories`: 'id' - int not null auto_increment primary key, 'name' - varchar(255) not null unique
-// TABLE `products`: 'id' - int not null auto_increment primary key, 'name' - varchar(255) not null, 'price' - decimal not null, 'description' - text, 'image_url' - varchar(255) not null, 'category_id' - int not null foreign key references categories(id)
-// TABLE `users`: 'id' - int not null auto_increment primary key, 'name' - varchar(255) not null, 'email' - varchar(255) not null unique, 'phone' - varchar(20) not null unique, 'password_hash' - varchar(255) not null, 'role' - int not null
-// TABLE `carts`: 'id' - int not null auto_increment primary key, 'user_id' - int not null foreign key references users(id), `status` - varchar(255) not null
-// TABLE `carts_products`: 'id' - int not null auto_increment primary key, 'cart_id' - int not null foreign key references carts(id), 'product_id' - int not null foreign key references products(id), 'quantity' - int not null
-// TABLE `orders`: 'id' - int not null auto_increment primary key, 'cart_id' - int not null foreign key references carts(id), 'status' - varchar(255) not null
