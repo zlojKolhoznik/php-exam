@@ -182,10 +182,31 @@ class DB
         return Order::ParseFromArray($order);
     }
 
+    public function getOrderTotal($order) {
+        $statement = $this->connection->prepare('SELECT SUM(price) FROM carts_products cp JOIN products p ON cp.product_id = p.id WHERE cart_id = :cart_id');
+        $statement->bindParam(':cart_id', $order->getCartId());
+        $statement->execute();
+        $total = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $total['SUM(price)'];
+    }
+
     public function getOrdersByUserId($user_id)
     {
         $statement = $this->connection->prepare('SELECT * FROM orders WHERE user_id = :user_id');
         $statement->bindParam(':user_id', $user_id);
+        $statement->execute();
+        $orders_from_db = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $orders = [];
+        foreach($orders_from_db as $order_from_db) {
+            $orders[] = Order::ParseFromArray($order_from_db);
+        }
+
+        return $orders;
+    }
+
+    public function getOrders() {
+        $statement = $this->connection->prepare('SELECT * FROM orders');
         $statement->execute();
         $orders_from_db = $statement->fetchAll(PDO::FETCH_ASSOC);
         $orders = [];

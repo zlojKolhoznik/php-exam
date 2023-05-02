@@ -35,7 +35,7 @@
                         <div class="mb-3">
                             <a href="upsert-category.php" class="btn btn-sm btn-success">Add new category</a>
                         </div>
-                        <table class="table table-sm table-striped table-bordered">
+                        <table class="table table-sm table-striped">
                             <thead>
                                 <tr>
                                     <th style="width: 20%;">Id</th>
@@ -69,7 +69,7 @@
                 </button>
                 <div class="collapse" id="usersCollapse">
                     <div class="p-2">
-                        <table class="table table-sm table-striped table-bordered">
+                        <table class="table table-sm table-striped">
                             <thead>
                                 <tr>
                                     <th style="width: 20%;">Id</th>
@@ -110,7 +110,7 @@
                     <div class="mb-3">
                             <a href="upsert-product.php" class="btn btn-sm btn-success">Add new product</a>
                         </div>
-                        <table class="table table-sm table-striped table-bordered">
+                        <table class="table table-sm table-striped">
                             <thead>
                                 <tr>
                                     <th style="width: 20%;">Id</th>
@@ -147,7 +147,37 @@
                         Orders
                 </button>
                 <div class="collapse" id="ordersCollapse">
-                    ORDERS MONITOR COMING SOON
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Id</th>
+                                <th style="width: 20%;">Recipient name</th>
+                                <th style="width: 20%;">Total</th>
+                                <th style="width: 20%;">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($db->getOrders() as $order): ?>
+                                <tr>
+                                    <td><?php echo $order->getId() ?></td>
+                                    <td><?php echo $order->getRecipientFullname() ?></td>
+                                    <td><?php echo $db->getOrderTotal($order) ?>₴</td>
+                                    <td class="<?php echo $order->getStatus() == 'completed' ? 'text-success' : '' ?>"><?php echo $order->getStatus() ?></td>
+                                    <td>
+                                        <?php if ($order->getStatus() == 'pending'): ?>
+                                            <a href="../scripts/new-order-status.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-success">Accept</a>
+                                            <a href="../scripts/delete-order.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-danger">Cancel</a>
+                                        <?php elseif ($order->getStatus() == 'accepted'): ?>
+                                            <a href="../scripts/new-order-status.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-success">Deliver</a>
+                                            <a href="../scripts/delete-order.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-danger">Cancel</a>
+                                        <?php elseif ($order->getStatus() == 'delivering'): ?>
+                                            <a href="../scripts/new-order-status.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-success">Complete</a>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                    </table>
                 </div>
             </div>
         </div>
