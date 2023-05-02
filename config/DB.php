@@ -1,10 +1,10 @@
 <?php
 
-require_once '../models\Category.php';
-require_once '../models\Product.php';
-require_once '../models\User.php';
-require_once '../models\Cart.php';
-require_once '../models\Order.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/Category.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/Product.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/User.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/Cart.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/Order.php';
 
 class DB
 {
