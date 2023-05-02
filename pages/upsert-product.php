@@ -36,14 +36,15 @@
                 if ($product != null && !empty($product->getImageUrl())) {
                     unlink($product->getImageUrl());
                 }
-                $imagePath = '../upload/'.time().'.'.end(explode('.', $image['name']));
+                $imageUrl = time().'.'.end(explode('.', $image['name']));
+                $imagePath = '../upload/'.$imageUrl;
                 move_uploaded_file($image['tmp_name'], $imagePath);
             }
             if (isset($_GET['id'])) {
-                $product = new Product($_GET['id'], $name, $price, $description, $imagePath, $category);
+                $product = new Product($_GET['id'], $name, $price, $description, $imageUrl, $category);
                 $db->updateProduct($product);
             } else {
-                $db->addProduct($name, $price, $description, $imagePath, $category);
+                $db->addProduct($name, $price, $description, $imageUrl, $category);
             }
             header('Location: admin-panel.php');
             exit();
