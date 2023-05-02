@@ -61,7 +61,6 @@ class DB
         $statement->bindParam(':id', $id);
         $statement->execute();
         $product = $statement->fetch(PDO::FETCH_ASSOC);
-
         return Product::ParseFromArray($product);
     }
 
@@ -374,8 +373,15 @@ class DB
         $statement->execute();
     }
 
+    public function removeProductFromCart($cart_id, $product_id) {
+        $statement = $this->connection->prepare('DELETE FROM carts_products WHERE cart_id = :cart_id AND product_id = :product_id');
+        $statement->bindParam(':cart_id', $cart_id);
+        $statement->bindParam(':product_id', $product_id);
+        $statement->execute();
+    }
+
     private function deleteCartProducts($cart_id) {
-        $statement = $this->connection->prepare('DELETE FROM cart_products WHERE cart_id = :cart_id');
+        $statement = $this->connection->prepare('DELETE FROM carts_products WHERE cart_id = :cart_id');
         $statement->bindParam(':cart_id', $cart_id);
         $statement->execute();
     }
@@ -401,6 +407,7 @@ class DB
         }
         return $products_info;
     }
+
 }
 
 

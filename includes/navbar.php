@@ -20,7 +20,7 @@ if ($query_index !== false) {
                     <a class="nav-link <?php if ($path == "/" || $path == "/index.php") echo "active" ?>" href="/index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php if ($path == "/cart.php") echo "active" ?>" href="#">Cart</a>
+                    <a class="nav-link <?php if ($path == "/pages/cart.php") echo "active" ?>" href="/pages/cart.php">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?php if ($path == "/contacts.php") echo "active" ?>" href="#">Contacts</a>
