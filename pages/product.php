@@ -5,7 +5,10 @@
     }
     $db = DB::getInstance();
     $product = $db->getProductById($_GET['id']);
-    $cart = $db->getActiveUserCart($_SESSION['user']->getId());
+    $cart = null;
+    if (isset($_SESSION['user'])) {
+        $cart = $db->getActiveUserCart($_SESSION['user']->getId());
+    }
     $already_in_cart = false;
     if ($cart != null) {
         foreach($cart->getProductsInfo() as $product_info) {
