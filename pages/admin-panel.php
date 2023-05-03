@@ -174,6 +174,7 @@
                                         <?php elseif ($order->getStatus() == 'delivering'): ?>
                                             <a href="../scripts/new-order-status.php?id=<?php echo $order->getId() ?>" class="btn btn-sm btn-success">Complete</a>
                                         <?php endif ?>
+                                        <a href="cart.php?id=<?php echo $order->getCartId(); ?>" class="btn btn-sm btn-primary">View cart</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

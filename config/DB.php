@@ -127,7 +127,7 @@ class DB
         return $users;
     }
 
-    public function getCart($id)
+    public function getCartById($id)
     {
         $statement = $this->connection->prepare('SELECT * FROM carts WHERE id = :id');
         $statement->bindParam(':id', $id);
@@ -193,8 +193,14 @@ class DB
 
     public function getOrdersByUserId($user_id)
     {
-        $statement = $this->connection->prepare('SELECT * FROM orders WHERE user_id = :user_id');
-        $statement->bindParam(':user_id', $user_id);
+        $carts = $this->getCartsByUserId($user_id);
+        $ids = '(';
+        foreach($carts as $cart) {
+            $ids .= $cart->getId() . ',';
+        }
+        $ids = rtrim($ids, ',');
+        $ids .= ')';
+        $statement = $this->connection->prepare('SELECT * FROM orders WHERE cart_id IN ' . $ids);
         $statement->execute();
         $orders_from_db = $statement->fetchAll(PDO::FETCH_ASSOC);
         $orders = [];

@@ -4,10 +4,15 @@
         session_start();
     }
     $db = DB::getInstance();
-    $cart = $db->getActiveUserCart($_SESSION['user']->getId());
-    if ($cart == null) {
-        $db->addCart($_SESSION['user']->getId());
+    $cart = null;
+    if (isset($_GET['id'])) {
+        $cart = $db->getCartById($_GET['id']);
+    } else {
         $cart = $db->getActiveUserCart($_SESSION['user']->getId());
+        if ($cart == null) {
+            $db->addCart($_SESSION['user']->getId());
+            $cart = $db->getActiveUserCart($_SESSION['user']->getId());
+        }
     }
     $products_info = $cart->getProductsInfo();
 ?>
@@ -23,7 +28,7 @@
     </head>
     <body>
         <?php include_once '../includes/navbar.php' ?>
-        <h1 class="text-center text-primary my-3">Cart</h1>
+        <h1 class="text-center text-primary my-3">Cart <?php if (isset($_GET['id'])) echo '#'.$cart->getId() ?></h1>
         <hr>
         <div class="container">
             <?php if (count($products_info) == 0): ?>
@@ -57,7 +62,7 @@
                         } 
                     echo $total; ?>₴
                 </p>
-                <a class="btn btn-success mb-3" href="order-details.php?total=<?php echo $total ?>">Checkout</a>
+                <a class="btn btn-success mb-3" href="order-details.php?total=<?php echo $total ?>">Checkout <?php if (isset($_GET['id'])) echo 'again' ?></a>
             <?php endif ?>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
