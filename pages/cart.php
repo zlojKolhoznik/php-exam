@@ -64,7 +64,9 @@
                         } 
                     echo $total; ?>₴
                 </p>
-                <a class="btn btn-success mb-3" href="order-details.php?total=<?php echo $total ?>">Checkout <?php if (isset($_GET['id'])) echo 'again' ?></a>
+                <?php if ($_SESSION['user']->getId() == $cart->getUserId()): ?>
+                    <a class="btn btn-success mb-3" href="order-details.php?total=<?php echo $total ?>">Checkout <?php if (isset($_GET['id'])) echo 'again' ?></a>
+                <?php endif ?>
             <?php endif ?>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
