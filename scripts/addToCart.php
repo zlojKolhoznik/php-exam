@@ -3,6 +3,11 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
+    if ($_SESSION['user'] == null) {
+        echo "<script>alert('You must be logged in to add products to cart!')</script>";
+        header("Location: ../pages/login.php");
+        exit();
+    }
     $db = DB::getInstance();
     $product = $db->getProductById($_POST['id']);
     $user = $_SESSION['user'];
