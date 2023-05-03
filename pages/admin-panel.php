@@ -87,7 +87,6 @@
                                         <td><?php echo $user->getPhone() ?></td>
                                         <td><?php echo $user->getRole() == 1 ? 'Admin' : 'Customer' ?></td>
                                         <td>
-                                            <a href="upsert-user.php?id=<?php echo $user->getId() ?>" class="btn btn-sm btn-primary">Edit</a>
                                             <a href="../scripts/delete-user.php?id=<?php echo $user->getId() ?>" class="btn btn-sm btn-danger">Delete</a>
                                         </td>
                                     </tr>
@@ -184,22 +183,5 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
-    <script>
-        let buttons = document.querySelectorAll('button[data-bs-toggle="collapse"]');
-        let activeButtonId = null;
-
-        function hideShownCollapse(pressedId) {
-            if (activeButtonId == pressedId) {
-                activeButtonId = null;
-                return;
-            }
-            if (activeButtonId != null) {
-                let button = document.getElementById(activeButtonId);
-                button.click();
-            }
-            activeButtonId = pressedId;
-        }
-
-        buttons.forEach(button => button.addEventListener('click', e => hideShownCollapse(e.target.id)));
-    </script>
+    <script src="../js/admin-panel.js"></script>
 </html>
