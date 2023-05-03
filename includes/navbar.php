@@ -1,9 +1,12 @@
 <?php
-
+require_once $_SERVER['DOCUMENT_ROOT'].'/models/User.php';
 $path = $_SERVER['REQUEST_URI'];
 $query_index = strpos($path, '?');
 if ($query_index !== false) {
     $path = substr($path, 0, $query_index);
+}
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 ?>
 
@@ -23,7 +26,7 @@ if ($query_index !== false) {
                     <a class="nav-link <?php if ($path == "/pages/cart.php") echo "active" ?>" href="/pages/cart.php">Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php if ($path == "/contacts.php") echo "active" ?>" href="#">Contacts</a>
+                    <a class="nav-link <?php if ($path == "/pages/contacts.php") echo "active" ?>" href="/pages/contacts.php">Contacts</a>
                 </li>
                 <?php if (isset($_SESSION['user']) || $_SESSION['user'] !== null): ?>
                     <li class="nav-item dropdown mx-3">
@@ -31,9 +34,9 @@ if ($query_index !== false) {
                             Hello, <?php echo $_SESSION['user']->getName() ?>
                         </a>
                         <div class="dropdown-menu" data-bs-popper="static">
-                            <a class="dropdown-item" href="#">Profile</a>
-                            <a class="dropdown-item" href="#">Orders</a>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="/pages/profile.php">Profile</a>
+                            <a class="dropdown-item" href="/pages/orders.php">Orders</a>
+                            <a class="dropdown-item" href="/pages/settings.php">Settings</a>
                             <?php if ($_SESSION['user']->getRole() == 1): ?>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/pages/admin-panel.php">Admin panel</a>
