@@ -50,7 +50,7 @@
                     <p class="text-warning" style="font-size: 3rem;">
                         <?php echo $product->getPrice() ?>₴
                     </p>
-                    <form action="../scripts/addToCart.php" method="POST">
+                    <form action="../scripts/add-to-cart.php" method="POST">
                         <input type="hidden" name="id" value="<?php echo $product->getId() ?>">
                         <input type="number" name="quantity" value="1" min="1" max="100" class="form-control w-25 d-inline">
                         <?php if ($already_in_cart): ?>

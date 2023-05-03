@@ -3,7 +3,7 @@
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    require_once "../scripts/authorize_only_admin.php";
+    require_once "../scripts/authorize-only-admin.php";
     $db = DB::getInstance();
 ?>
 <!DOCTYPE html>
