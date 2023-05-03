@@ -14,7 +14,6 @@
         $price = $_POST['price'];
         $category = $_POST['category'];
         $image = $_FILES['image'];
-        var_dump($image);
         $errors = [];
         if (empty($name)) {
             $errors[] = 'Name is required';

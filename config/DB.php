@@ -234,6 +234,7 @@ class DB
 
     public function addProduct($name, $price, $description, $image_url, $category_id)
     {
+        print_r([$name, $price, $description, $image_url, $category_id]);
         $statement = $this->connection->prepare('INSERT INTO products (name, price, description, image_url, category_id) VALUES (:name, :price, :description, :image_url, :category_id)');
         $statement->bindParam(':name', $name);
         $statement->bindParam(':price', $price);

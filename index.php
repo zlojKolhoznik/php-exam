@@ -8,6 +8,7 @@
     $products = $db->getProducts();
     $temp = [];
     $doSearch = isset($_GET['q']) && !empty($_GET['q']);
+    $doFilter = isset($_GET['category']) && !empty($_GET['category']) && $_GET['category'] != "all";
     if ($doSearch) {
         foreach($products as $product) {
             if (strpos(strtolower($product->getName()), strtolower($_GET['q'])) !== false) {
@@ -16,6 +17,15 @@
         }
     }
     $products = $doSearch ? $temp : $products;
+    $temp = [];
+    if ($doFilter) {
+        foreach($products as $product) {
+            if ($product->getCategoryId() == $_GET['category']) {
+                array_push($temp, $product);
+            }
+        }
+    }
+    $products = $doFilter ? $temp : $products;
 ?>
 <head>
     <?php include_once "includes/links.php" ?>
@@ -23,6 +33,25 @@
 </head>
 <body>
     <?php include_once "includes/navbar.php" ?>
+    <h1 class="text-center text-primary my-3">Products</h1>
+    <hr>
+    <div class="position-fixed fixed-left ms-4 p-2" style="background-color: #E5E5E5;">
+        <form method="get">
+            <label for="category" class="form-label">
+                <p class="text-center text-primary my-2">Filter by category</p>
+            </label>
+            <select name="category" id="category" class="form-select">
+                <option value="all">All</option>
+                <?php foreach($db->getCategories() as $category): ?>
+                    <option value="<?php echo $category->getId() ?>"><?php echo $category->getName() ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php if (isset($_GET['q'])): ?>
+                <input type="hidden" name="q" value="<?php echo $_GET['q'] ?>">
+            <?php endif; ?> 
+            <button type="submit" class="btn btn-primary my-2">Filter</button>
+        </form>
+    </div>
     <div class="container">
         <?php if (count($products) == 0): ?>
             <h3 class="text-center text-secondary my-5">No products found</h3>

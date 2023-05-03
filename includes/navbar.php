@@ -59,6 +59,9 @@ if (session_status() == PHP_SESSION_NONE) {
             </ul>
             <form class="d-flex" method="get" action="/index.php">
                 <input class="form-control me-sm-2" type="search" name="q"  value="<?php echo $_GET['q'] ?>" placeholder="Enter product's name">
+                <?php if (isset($_GET['category'])): ?>
+                    <input type="hidden" name="category" value="<?php echo $_GET['category'] ?>">
+                <?php endif; ?>
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
