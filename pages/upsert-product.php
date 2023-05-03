@@ -14,40 +14,26 @@
         $price = $_POST['price'];
         $category = $_POST['category'];
         $image = $_FILES['image'];
-        $errors = [];
-        if (empty($name)) {
-            $errors[] = 'Name is required';
-        }
-        if (empty($description)) {
-            $errors[] = 'Description is required';
-        }
-        if (empty($price)) {
-            $errors[] = 'Price is required';
-        }
         if (empty($category)) {
-            $errors[] = 'Category is required';
-        }
-        if (empty($image['name'])  && ($product == null || empty($product->getImageUrl()))) {
-            $errors[] = 'Image is required';
-        }
-        if (empty($errors)) {
-            if (!empty($image['name'])) {
-                if ($product != null && !empty($product->getImageUrl())) {
-                    unlink($product->getImageUrl());
-                }
-                $imageUrl = time().'.'.end(explode('.', $image['name']));
-                $imagePath = '../upload/'.$imageUrl;
-                move_uploaded_file($image['tmp_name'], $imagePath);
-            }
-            if (isset($_GET['id'])) {
-                $product = new Product($_GET['id'], $name, $price, $description, $imageUrl, $category);
-                $db->updateProduct($product);
-            } else {
-                $db->addProduct($name, $price, $description, $imageUrl, $category);
-            }
-            header('Location: admin-panel.php');
+            header('Location: ?error=1');
             exit();
         }
+        if (!empty($image['name'])) {
+            if ($product != null && !empty($product->getImageUrl())) {
+                unlink($product->getImageUrl());
+            }
+            $imageUrl = time().'.'.end(explode('.', $image['name']));
+            $imagePath = '../upload/'.$imageUrl;
+            move_uploaded_file($image['tmp_name'], $imagePath);
+        }
+        if (isset($_GET['id'])) {
+            $product = new Product($_GET['id'], $name, $price, $description, $imageUrl, $category);
+            $db->updateProduct($product);
+        } else {
+            $db->addProduct($name, $price, $description, $imageUrl, $category);
+        }
+        header('Location: admin-panel.php');
+        exit();
     } else
 ?>
 <!DOCTYPE html>
@@ -72,6 +58,7 @@
                         id="name"
                         name="name"
                         placeholder="Name"
+                        required
                         value="<?php echo isset($_GET['id']) ? $product->getName() : '' ?>"
                     >
                     <label for="name" class="form-label">Name</label>
@@ -82,6 +69,7 @@
                         id="description"
                         name="description"
                         placeholder="Description"
+                        required
                         style="height: 7.5rem"
                     ><?php echo isset($_GET['id']) ? $product->getDescription() : null ?></textarea>
                     <label for="description" class="form-label">Description</label>
@@ -94,6 +82,7 @@
                         id="price"
                         name="price"
                         placeholder="Price"
+                        required
                         value="<?php echo isset($_GET['id']) ? $product->getPrice() : '' ?>"
                     >
                     <label for="price" class="form-label">Price</label>
@@ -105,11 +94,13 @@
                         class="form-control"
                         id="image"
                         name="image"
+                        accept="image/*"
+                        required
                     >
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 has-validation">
                     <label for="category" class="form-label">Category</label>
-                    <select class="form-select" id="category" name="category">
+                    <select class="form-select <?php if ($_GET['error'] == 1) echo 'is-invalid' ?>" id="category" name="category">
                         <option 
                             disabled
                             <?php echo !isset($_GET['id']) ? 'selected' : '' ?>
@@ -125,6 +116,7 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <p class="invalid-feedback text-danger">Please select a category</p>
                 </div>
                 <div class="mb-3 d-flex gap-3">
                     <button type="submit" name="submit" class="btn btn-primary"><?php echo isset($_GET['id']) ? 'Edit' : 'Create' ?></button>

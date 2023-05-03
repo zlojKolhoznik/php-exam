@@ -5,7 +5,7 @@
     }
     require_once '../scripts/authorize_only_admin.php';
     $db = DB::getInstance();
-    $category = isset($_GET['id']) ? $db->getCategory($_GET['id']) : null;
+    $category = isset($_GET['id']) ? $db->getCategoryById($_GET['id']) : null;
     if (isset($_POST['submit'])) {
         $name = $_POST['name'];
         if (isset($_GET['id'])) {
@@ -39,6 +39,7 @@
                         id="name" 
                         name="name" 
                         placeholder="Name"
+                        required
                         value="<?php echo isset($_GET['id']) ? $category->getName() : '' ?>"
                     >
                     <label for="name" class="form-label">Name</label>
