@@ -46,10 +46,12 @@
                             <p>Price: <?php echo $product->getPrice() ?>₴</p>
                             <p>Quantity: <?php echo $quantity ?></p>
                             <p>Total: <?php echo $product->getPrice() * $quantity ?>₴</p>
+                            <?php if (!isset($_GET['id'])): ?>
                             <form action="../scripts/remove-from-cart.php" method="POST">
                                 <input type="hidden" name="product_id" value="<?php echo $product->getId() ?>">
                                 <button type="submit" class="btn btn-danger">Remove from cart</button>
                             </form>
+                            <?php endif ?>
                         </div>
                     </div>
                 <?php endforeach ?>

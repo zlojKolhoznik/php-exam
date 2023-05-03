@@ -41,9 +41,6 @@ if (isset($_POST['submit'])) {
     $db->addUser($email, hash('sha256', $password), $name, $phone, 0);
     $user = $db->getUserByEmail($email);
     $_SESSION['user'] = $user;
-    if (isset($_POST['remember'])) {
-        setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30, '/');
-    }
     header('Location: ../index.php');
     exit();
 }
@@ -108,10 +105,6 @@ if (isset($_POST['submit'])) {
                                     Passwords do not match.
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <input type="checkbox" name="remember" id="remember">
-                            <label for="remember">Remember me</label>
                         </div>
                         <p class="text-muted mb-3">Already have an account? <a href="login.php">Log in!</a></p>
                         <div class="form-group">

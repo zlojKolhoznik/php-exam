@@ -31,10 +31,6 @@
                                     Incorrect password.
                                 </div>
                             </div>
-                            <div class="form-group mb-3">
-                                <input type="checkbox" name="remember" id="remember">
-                                <label for="remember">Remember me</label>
-                            </div>
                             <p class="text-muted mb-3">Do not have an account? <a href="signup.php">Sign up!</a></p>
                             <div class="form-group">
                                 <input type="submit" value="Log in" class="btn btn-primary">
@@ -78,8 +74,5 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 $_SESSION['user'] = $user;
-if ($remember_me == 'on') {
-    setcookie('userId', $user->getId(), time() + 60 * 60 * 24 * 30);
-}
 header('Location: ../index.php');
 exit();
