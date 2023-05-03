@@ -57,12 +57,10 @@ if (session_status() == PHP_SESSION_NONE) {
                     </li>
                 <?php endif; ?>
             </ul>
-            <?php if ($path == "/" || $path == "/index.php"): ?>
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Enter product's name">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            <?php endif; ?>
+            <form class="d-flex" method="get" action="/index.php">
+                <input class="form-control me-sm-2" type="search" name="q"  value="<?php echo $_GET['q'] ?>" placeholder="Enter product's name">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </div>
 </nav>

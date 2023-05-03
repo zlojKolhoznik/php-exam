@@ -6,6 +6,16 @@
     require_once "config/DB.php";
     $db = DB::getInstance();
     $products = $db->getProducts();
+    $temp = [];
+    $doSearch = isset($_GET['q']) && !empty($_GET['q']);
+    if ($doSearch) {
+        foreach($products as $product) {
+            if (strpos(strtolower($product->getName()), strtolower($_GET['q'])) !== false) {
+                array_push($temp, $product);
+            }
+        }
+    }
+    $products = $doSearch ? $temp : $products;
 ?>
 <head>
     <?php include_once "includes/links.php" ?>
@@ -14,6 +24,9 @@
 <body>
     <?php include_once "includes/navbar.php" ?>
     <div class="container">
+        <?php if (count($products) == 0): ?>
+            <h3 class="text-center text-secondary my-5">No products found</h3>
+        <?php endif; ?>
         <div class="d-flex flex-wrap gap-3 p-2">
             <?php foreach($products as $product): ?>
                 <div class="card justify-content-between" style="max-width: 15em;">
