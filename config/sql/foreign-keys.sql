@@ -1,3 +1,4 @@
+USE `shop`;
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `carts_products`

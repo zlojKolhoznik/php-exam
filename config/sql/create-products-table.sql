@@ -1,3 +1,4 @@
+USE `shop`;
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -9,4 +10,3 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`),
   KEY `products_category_id` (`category_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-COMMIT;
