@@ -11,10 +11,11 @@
     </head>
     <body>
         <?php include_once '../includes/navbar.php'; ?>
+        <h1 class="text-center my-2">ShopyShop Contacts</h1>
+        <hr>
         <div class="container">
             <!--Dummy contacts-->
             <div class="container py-5">
-                <h1 class="text-center mb-4">ShopyShop Contacts</h1>
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <h2 class="mb-3">Address</h2>

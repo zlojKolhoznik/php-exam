@@ -1,7 +1,12 @@
 :root {
     --primary-hover-color: #363636;
+    --secondary-hover-color: #e5e5e5;
 }
 .btn-primary:hover {
     background-color: var(--primary-hover-color);
     border-color: var(--primary-hover-color);
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-hover-color);
+    border-color: var(--secondary-hover-color);
 }

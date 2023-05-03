@@ -27,8 +27,12 @@
     }
     $products = $doFilter ? $temp : $products;
 ?>
+<!DOCTYPE html>
 <head>
-    <?php include_once "includes/links.php" ?>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet"  href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/custom-styles.css">
     <title>Home - ShopyShop</title>
 </head>
 <body>
